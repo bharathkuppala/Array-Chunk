@@ -1,0 +1,32 @@
+package main
+
+import (
+	"log"
+	"os"
+)
+
+var (
+	logger *log.Logger
+)
+
+func main() {
+	logger = log.New(os.Stdout, "", log.Lmicroseconds|log.Lshortfile)
+	arrayChunk([]int{1, 2, 3, 4, 5, 6, 7, 8, 9}, 2)
+}
+
+func arrayChunk(array []int, chunkSize int) {
+	chunkedArray := [][]int{}
+	index := 0
+	for index < len(array) {
+		chunkedSlice := array[index:chunkSize]
+		chunkedArray = append(chunkedArray, []int(chunkedSlice))
+		index = chunkSize
+		chunkSize = len(chunkedSlice) + chunkSize
+		if len(array) < chunkSize {
+			chunkSize = chunkSize - 1
+		}
+		logger.Println(chunkSize)
+	}
+	logger.Println(chunkedArray)
+
+}
